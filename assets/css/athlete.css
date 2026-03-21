@@ -1,1 +1,141 @@
-.card h1{margin-top:0}
+.card h1 {
+  margin-top: 0;
+}
+
+.athlete-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.athlete-image {
+  display: flex;
+  justify-content: center;
+}
+
+.athlete-image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.athlete-image img:hover {
+  transform: scale(1.02);
+}
+
+.athlete-info h1 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: clamp(24px, 5vw, 36px);
+}
+
+.athlete-info .nation {
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.athlete-info .bio {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--muted);
+}
+
+.shoe-info {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.shoe-info h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.shoe-info .shoe-name {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.shoe-info .shoe-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .athlete-detail {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .athlete-info h1 {
+    font-size: clamp(20px, 4vw, 28px);
+  }
+
+  .athlete-image img {
+    max-width: 100%;
+  }
+
+  .shoe-info {
+    padding: 14px;
+  }
+
+  .shoe-info .shoe-name {
+    font-size: 16px;
+  }
+
+  .shoe-info .shoe-desc {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .athlete-detail {
+    gap: 16px;
+  }
+
+  .athlete-info h1 {
+    font-size: clamp(18px, 3vw, 24px);
+  }
+
+  .athlete-info .bio {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .shoe-info {
+    padding: 12px;
+    margin-top: 12px;
+  }
+
+  .shoe-info h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .shoe-info .shoe-name {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .shoe-info .shoe-desc {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}

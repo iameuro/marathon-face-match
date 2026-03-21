@@ -1,3 +1,32 @@
+// 다크모드 토글 기능
+function initThemeToggle() {
+  const themeToggle = document.getElementById("theme-toggle");
+  const savedTheme = localStorage.getItem("theme") || "dark-mode";
+  
+  // 저장된 테마 적용
+  document.body.className = savedTheme;
+  updateThemeToggleIcon(savedTheme);
+  
+  // 토글 버튼 이벤트
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = document.body.className;
+      const newTheme = currentTheme === "dark-mode" ? "light-mode" : "dark-mode";
+      
+      document.body.className = newTheme;
+      localStorage.setItem("theme", newTheme);
+      updateThemeToggleIcon(newTheme);
+    });
+  }
+}
+
+function updateThemeToggleIcon(theme) {
+  const themeToggle = document.getElementById("theme-toggle");
+  if (themeToggle) {
+    themeToggle.textContent = theme === "dark-mode" ? "☀️" : "🌙";
+  }
+}
+
 // 카메라 기능
 async function initCamera() {
   try {
@@ -66,6 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.MFMAthletes) {
     console.log("Athletes loaded:", window.MFMAthletes.length);
   }
+  
+  // 테마 토글 초기화
+  initThemeToggle();
   
   // 카메라 버튼 설정
   setupCameraButtons();
