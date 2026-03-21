@@ -29,7 +29,22 @@
   <main class="page-wrap">
     <section class="hero card">
       <h1>마라톤 얼굴 매칭 러닝화 추천</h1>
-      <p>이 파일은 한국어 메인 홈의 시작점입니다.</p>
+      <p>당신의 얼굴과 발 타입을 매칭하여 최적의 러닝화를 추천합니다.</p>
+      
+      <!-- 카메라 섹션 -->
+      <div class="camera-section">
+        <h2>얼굴 매칭</h2>
+        <div class="camera-container">
+          <video id="camera-video" width="320" height="240" autoplay></video>
+          <canvas id="camera-canvas" style="display:none;"></canvas>
+        </div>
+        <div class="button-row">
+          <button id="camera-start" class="btn">카메라 시작</button>
+          <button id="camera-stop" class="btn">카메라 중지</button>
+          <button id="camera-capture" class="btn">스냅샷 캡처</button>
+        </div>
+      </div>
+
       <div class="button-row">
         <a class="btn" href="./athletes/sifan-hassan.html">선수 상세 보기</a>
         <a class="btn" href="../en/index.html">English</a>

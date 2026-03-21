@@ -1,1 +1,60 @@
-.hero{margin-top:16px}
+.hero {
+  margin-top: 16px;
+}
+
+.camera-section {
+  margin: 24px 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.camera-section h2 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.camera-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.camera-container video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.camera-container canvas {
+  display: none;
+}
+
+.camera-section .button-row {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.camera-section button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.camera-section button:hover {
+  background-color: #0056b3;
+}
+
+.camera-section button:active {
+  background-color: #003d82;
+}

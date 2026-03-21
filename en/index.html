@@ -29,9 +29,24 @@
   <main class="page-wrap">
     <section class="hero card">
       <h1>Marathon Face Match</h1>
-      <p>This is the starting point for the English homepage.</p>
+      <p>Match your face and foot type to find your perfect marathon shoe.</p>
+      
+      <!-- Camera Section -->
+      <div class="camera-section">
+        <h2>Face Matching</h2>
+        <div class="camera-container">
+          <video id="camera-video" width="320" height="240" autoplay></video>
+          <canvas id="camera-canvas" style="display:none;"></canvas>
+        </div>
+        <div class="button-row">
+          <button id="camera-start" class="btn">Start Camera</button>
+          <button id="camera-stop" class="btn">Stop Camera</button>
+          <button id="camera-capture" class="btn">Capture Snapshot</button>
+        </div>
+      </div>
+
       <div class="button-row">
-        <a class="btn" href="./athletes/sifan-hassan.html">Open athlete page</a>
+        <a class="btn" href="./athletes/sifan-hassan.html">View Athletes</a>
         <a class="btn" href="../ko/index.html">한국어</a>
       </div>
     </section>
