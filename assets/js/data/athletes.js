@@ -8,8 +8,8 @@ window.MFMAthletes = [
     shoeId: "alphafly3"
   },
   {
-    id: "benson-kipchoe",
-    name: "Benson Kipchoe",
+    id: "benson-kipruto",
+    name: "Benson Kipruto",
     nation: "Kenya",
     gender: "M",
     shoeId: "adiospro4"
