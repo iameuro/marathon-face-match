@@ -2,6 +2,7 @@
 let faceDetector = null;
 let isFaceDetecting = false;
 let capturedImageBase64 = null; // Store captured image as base64
+const isEnglishPage = document.documentElement.lang === "en";
 
 // Initialize face detection model
 async function initFaceDetection() {
@@ -15,7 +16,7 @@ async function initFaceDetection() {
     console.log("Face detection model loaded successfully");
   } catch (error) {
     console.error("Face detection model failed to load:", error);
-    alert("얼굴 감지 모델 로드 실패. 페이지를 새로고침해주세요.");
+    alert(isEnglishPage ? "Failed to load the face detection model. Please refresh the page." : "얼굴 감지 모델 로드 실패. 페이지를 새로고침해주세요.");
   }
 }
 
@@ -116,7 +117,7 @@ function displayMatchResult(athlete, shoe) {
     const capturedFaceImage = document.getElementById("captured-face-image");
     if (capturedFaceImage && capturedImageBase64) {
       capturedFaceImage.src = capturedImageBase64;
-      capturedFaceImage.alt = "당신의 얼굴";
+      capturedFaceImage.alt = isEnglishPage ? "Your face" : "당신의 얼굴";
     }
 
     // Set matched athlete face image for comparison
@@ -146,7 +147,7 @@ function displayMatchResult(athlete, shoe) {
     const athleteImage = document.getElementById("result-athlete-image");
 
     if (athleteName) athleteName.textContent = athlete.name;
-    if (athleteNation) athleteNation.textContent = `🇰🇪 ${athlete.nation}`;
+    if (athleteNation) athleteNation.textContent = `🌍 ${athlete.nation}`;
     if (athleteBio) athleteBio.textContent = athlete.bio;
     if (athleteAchievements) athleteAchievements.textContent = athlete.achievements;
     if (athleteImage) {

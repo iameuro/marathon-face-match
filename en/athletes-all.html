@@ -7,9 +7,9 @@
   <meta name="description" content="Discover the profiles and achievements of world-class marathon athletes" />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/home.css" />
-  <script defer src="../assets/js/data/brands.js"></script>
-  <script defer src="../assets/js/data/shoes.js"></script>
-  <script defer src="../assets/js/data/athletes.js"></script>
+  <script defer src="../assets/js/data/en/brands.js"></script>
+  <script defer src="../assets/js/data/en/shoes.js"></script>
+  <script defer src="../assets/js/data/en/athletes.js"></script>
   <script defer src="../assets/js/core/utils.js"></script>
   <style>
     .athletes-grid {
@@ -25,6 +25,7 @@
       border-radius: 12px;
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
     }
 
     .athlete-card:hover {
@@ -40,6 +41,25 @@
 
     .athlete-card-info {
       padding: 20px;
+    }
+
+    .athlete-card button {
+      width: 100%;
+      text-align: left;
+      color: inherit;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .athlete-card button:focus-visible,
+    .filter-chip:focus-visible,
+    .fun-run-btn:focus-visible,
+    .modal-close:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .athlete-card h3 {
@@ -87,6 +107,92 @@
 
     .female {
       background: #ec4899;
+    }
+
+    .page-tools {
+      display: grid;
+      gap: 18px;
+      margin: 24px 0 8px;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top right, rgba(255, 136, 0, 0.16), transparent 30%),
+        linear-gradient(135deg, rgba(28, 32, 44, 0.95), rgba(12, 15, 24, 0.92));
+      color: #f8fafc;
+    }
+
+    .page-tools h2,
+    .page-tools p {
+      margin: 0;
+    }
+
+    .page-tools-copy {
+      display: grid;
+      gap: 6px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-chip,
+    .fun-run-btn {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: inherit;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .filter-chip:hover,
+    .filter-chip.is-active,
+    .fun-run-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .fun-run-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .fun-run-result {
+      min-height: 24px;
+      font-size: 14px;
+      color: rgba(248, 250, 252, 0.9);
+    }
+
+    .vibe-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.12);
+      color: #f59e0b;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .athlete-card.is-spotlight {
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.45), 0 18px 32px rgba(245, 158, 11, 0.18);
+      transform: translateY(-6px);
     }
   </style>
   <style>
@@ -188,6 +294,17 @@
       font-size: 20px;
     }
 
+    .runner-note {
+      margin: 0 0 20px 0;
+      padding: 14px 16px;
+      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.08);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     .shoe-card {
       display: flex;
       gap: 20px;
@@ -228,6 +345,14 @@
     }
 
     @media (max-width: 768px) {
+      .page-tools {
+        padding: 18px;
+      }
+
+      .fun-run-panel {
+        align-items: stretch;
+      }
+
       .athlete-detail {
         grid-template-columns: 1fr;
       }
@@ -263,6 +388,27 @@
       <h1>Marathon Athletes</h1>
       <p>Discover world-class marathon athletes and their signature racing shoes!</p>
 
+      <section class="page-tools" aria-labelledby="runner-fun-title">
+        <div class="page-tools-copy">
+          <h2 id="runner-fun-title">Runner Fun Zone</h2>
+          <p>Filter by race-day vibe or let the page pick a pace buddy for your next run.</p>
+        </div>
+
+        <div class="filter-row" id="vibe-filters" aria-label="Filter athletes by running vibe">
+          <button class="filter-chip is-active" type="button" data-vibe="all">All vibes</button>
+          <button class="filter-chip" type="button" data-vibe="negative-split">Negative Split Master</button>
+          <button class="filter-chip" type="button" data-vibe="strong-finisher">Strong Finisher</button>
+          <button class="filter-chip" type="button" data-vibe="smooth-cruiser">Smooth Cruiser</button>
+        </div>
+
+        <div class="fun-run-panel">
+          <div class="fun-run-result" id="fun-run-result" aria-live="polite">
+            Tap "Pick My Pace Buddy" for a surprise long-run companion.
+          </div>
+          <button class="fun-run-btn" id="pace-buddy-btn" type="button">Pick My Pace Buddy</button>
+        </div>
+      </section>
+
       <div class="athletes-grid" id="athletes-grid">
         <!-- Athlete cards will be dynamically added here -->
       </div>
@@ -275,7 +421,7 @@
   </main>
 
   <!-- Athlete Detail Modal -->
-  <div id="athlete-modal" class="modal-overlay" style="display: none;">
+  <div id="athlete-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-athlete-name">
     <div class="modal-content">
       <button class="modal-close" aria-label="Close modal">&times;</button>
       <div class="modal-body">
@@ -287,6 +433,7 @@
             <p id="modal-athlete-nation" class="nation"></p>
             <p id="modal-athlete-bio" class="bio"></p>
             <div id="modal-athlete-achievements" class="achievements"></div>
+            <p id="modal-runner-note" class="runner-note"></p>
             <div class="recommended-shoe">
               <h3>Recommended Shoe</h3>
               <div class="shoe-card">
@@ -317,6 +464,42 @@
   </footer>
 
   <script>
+    const ATHLETE_VIBES = {
+      "eliud-kipchoge": {
+        vibe: "negative-split",
+        label: "Negative Split Master",
+        note: "Cruise the first half, then sharpen the rhythm late. This athlete energy is made for runners who finish with intent."
+      },
+      "benson-kipruto": {
+        vibe: "strong-finisher",
+        label: "Strong Finisher",
+        note: "Stay patient, then trust the kick. Great for race plans built around a brave final 10K."
+      },
+      "john-korir": {
+        vibe: "smooth-cruiser",
+        label: "Smooth Cruiser",
+        note: "Lock into a relaxed cadence and protect your form. Ideal when you want the run to feel efficient, not chaotic."
+      },
+      "sifan-hassan": {
+        vibe: "strong-finisher",
+        label: "Strong Finisher",
+        note: "This is comeback energy. If you like changing gears when others fade, this vibe fits."
+      },
+      "tigst-assefa": {
+        vibe: "negative-split",
+        label: "Negative Split Master",
+        note: "Controlled opening, confident close. A fun reminder that smooth patience can still lead to fast results."
+      },
+      "helen-obiri": {
+        vibe: "smooth-cruiser",
+        label: "Smooth Cruiser",
+        note: "Run tall, stay composed, and let consistency do the work. Perfect for runners chasing flow state."
+      }
+    };
+
+    let currentVibeFilter = 'all';
+    let lastFocusedCardButton = null;
+
     function initThemeToggle() {
       const themeToggle = document.getElementById("theme-toggle");
       const savedTheme = localStorage.getItem("theme") || "dark-mode";
@@ -345,36 +528,89 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       initThemeToggle();
-      initAthleteModals();
       initLanguageToggle();
       initAthleteCards();
+      initAthleteModals();
+      initVibeFilters();
+      initPaceBuddyPicker();
     });
 
     function initAthleteCards() {
       const grid = document.getElementById('athletes-grid');
       if (!grid || typeof window.MFMAthletes === 'undefined') return;
 
+      grid.textContent = '';
+
       window.MFMAthletes.forEach(athlete => {
+        const vibeInfo = ATHLETE_VIBES[athlete.id] || {
+          vibe: 'all',
+          label: 'Race Day Energy',
+          note: 'Bring your own rhythm and enjoy the miles.'
+        };
         const genderClass = athlete.gender === 'M' ? 'male' : 'female';
         const genderText = athlete.gender === 'M' ? 'Male' : 'Female';
-        
-        const card = document.createElement('div');
+        const card = document.createElement('article');
         card.className = 'athlete-card';
-        card.innerHTML = `
-          <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
-          <div class="athlete-card-info">
-            <div class="gender-badge ${genderClass}">${genderText}</div>
-            <h3>${athlete.name}</h3>
-            <p class="nation">🌍 ${athlete.nation}</p>
-            <p class="bio">${athlete.bio}</p>
-            <div class="achievements">
-              <strong>Achievements:</strong><br />
-              ${athlete.achievements}
-            </div>
-          </div>
-        `;
+        card.dataset.athleteId = athlete.id;
+        card.dataset.vibe = vibeInfo.vibe;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute('aria-label', `Open details for ${athlete.name}`);
+
+        const image = document.createElement('img');
+        image.src = `../assets/images/athletes/${athlete.image}`;
+        image.alt = athlete.name;
+
+        const info = document.createElement('div');
+        info.className = 'athlete-card-info';
+
+        const vibeTag = document.createElement('div');
+        vibeTag.className = 'vibe-tag';
+        vibeTag.textContent = vibeInfo.label;
+
+        const badge = document.createElement('div');
+        badge.className = `gender-badge ${genderClass}`;
+        badge.textContent = genderText;
+
+        const name = document.createElement('h3');
+        name.textContent = athlete.name;
+
+        const nation = document.createElement('p');
+        nation.className = 'nation';
+        nation.textContent = `🌍 ${athlete.nation}`;
+
+        const bio = document.createElement('p');
+        bio.className = 'bio';
+        bio.textContent = athlete.bio;
+
+        const achievements = document.createElement('div');
+        achievements.className = 'achievements';
+
+        const strong = document.createElement('strong');
+        strong.textContent = 'Achievements:';
+
+        const achievementsText = document.createElement('p');
+        achievementsText.textContent = athlete.achievements;
+
+        achievements.appendChild(strong);
+        achievements.appendChild(document.createElement('br'));
+        achievements.appendChild(achievementsText);
+
+        info.appendChild(vibeTag);
+        info.appendChild(badge);
+        info.appendChild(name);
+        info.appendChild(nation);
+        info.appendChild(bio);
+        info.appendChild(achievements);
+
+        button.appendChild(image);
+        button.appendChild(info);
+        card.appendChild(button);
         grid.appendChild(card);
       });
+
+      applyVibeFilter(currentVibeFilter);
     }
 
     function initLanguageToggle() {
@@ -390,30 +626,121 @@
 
     function initAthleteModals() {
       const modal = document.getElementById('athlete-modal');
+      if (!modal) return;
+
       const closeBtn = modal.querySelector('.modal-close');
+      const closeModal = () => {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (lastFocusedCardButton) {
+          lastFocusedCardButton.focus();
+        }
+      };
       
       // Close modal when clicking close button or overlay
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+      }
       
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-          modal.style.display = 'none';
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+          closeModal();
         }
       });
       
       // Add click events to athlete cards
-      document.querySelectorAll('.athlete-card').forEach((card, index) => {
-        card.style.cursor = 'pointer';
-        card.addEventListener('click', () => {
-          showAthleteModal(window.MFMAthletes[index]);
+      document.querySelectorAll('.athlete-card button').forEach((button) => {
+        button.addEventListener('click', () => {
+          lastFocusedCardButton = button;
+          const card = button.closest('.athlete-card');
+          const athleteId = card ? card.dataset.athleteId : '';
+          const athlete = Array.isArray(window.MFMAthletes)
+            ? window.MFMAthletes.find((item) => item.id === athleteId)
+            : null;
+
+          showAthleteModal(athlete);
         });
       });
     }
 
+    function initVibeFilters() {
+      const filterRoot = document.getElementById('vibe-filters');
+      if (!filterRoot) return;
+
+      filterRoot.addEventListener('click', (event) => {
+        const target = event.target.closest('.filter-chip');
+        if (!target) return;
+
+        const selectedVibe = target.dataset.vibe || 'all';
+        currentVibeFilter = selectedVibe;
+
+        filterRoot.querySelectorAll('.filter-chip').forEach((chip) => {
+          chip.classList.toggle('is-active', chip === target);
+        });
+
+        applyVibeFilter(selectedVibe);
+      });
+    }
+
+    function initPaceBuddyPicker() {
+      const paceBuddyBtn = document.getElementById('pace-buddy-btn');
+      if (!paceBuddyBtn) return;
+
+      paceBuddyBtn.addEventListener('click', () => {
+        if (!Array.isArray(window.MFMAthletes) || window.MFMAthletes.length === 0) return;
+
+        const visibleCards = Array.from(document.querySelectorAll('.athlete-card'))
+          .filter((card) => card.style.display !== 'none');
+
+        const candidateCards = visibleCards.length > 0 ? visibleCards : Array.from(document.querySelectorAll('.athlete-card'));
+        const selectedCard = candidateCards[Math.floor(Math.random() * candidateCards.length)];
+
+        if (!selectedCard) return;
+
+        document.querySelectorAll('.athlete-card').forEach((card) => {
+          card.classList.toggle('is-spotlight', card === selectedCard);
+        });
+
+        const athlete = window.MFMAthletes.find((item) => item.id === selectedCard.dataset.athleteId);
+        const vibeInfo = athlete ? ATHLETE_VIBES[athlete.id] : null;
+        const result = document.getElementById('fun-run-result');
+
+        if (athlete && result) {
+          result.textContent = `${athlete.name} is your pace buddy today. ${vibeInfo ? vibeInfo.note : 'Bring relaxed form and enjoy the miles.'}`;
+        }
+
+        selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
+
+    function applyVibeFilter(selectedVibe) {
+      const cards = document.querySelectorAll('.athlete-card');
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const matches = selectedVibe === 'all' || card.dataset.vibe === selectedVibe;
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibleCount += 1;
+      });
+
+      const result = document.getElementById('fun-run-result');
+      if (result) {
+        result.textContent = visibleCount > 0
+          ? `${visibleCount} athlete${visibleCount === 1 ? '' : 's'} matched this running vibe.`
+          : 'No athletes matched that vibe yet. Try another race-day mood.';
+      }
+    }
+
     function showAthleteModal(athlete) {
       const modal = document.getElementById('athlete-modal');
+      if (!modal || !athlete) return;
       
       // Set athlete info
       document.getElementById('modal-athlete-image').src = `../assets/images/athletes/${athlete.image}`;
@@ -426,10 +753,19 @@
       document.getElementById('modal-athlete-name').textContent = athlete.name;
       document.getElementById('modal-athlete-nation').textContent = `🌍 ${athlete.nation}`;
       document.getElementById('modal-athlete-bio').textContent = athlete.bio;
-      document.getElementById('modal-athlete-achievements').innerHTML = `<strong>Achievements:</strong><br />${athlete.achievements}`;
+      document.getElementById('modal-athlete-achievements').textContent = `Achievements: ${athlete.achievements}`;
+
+      const runnerNote = document.getElementById('modal-runner-note');
+      if (runnerNote) {
+        const vibeInfo = ATHLETE_VIBES[athlete.id];
+        runnerNote.textContent = vibeInfo ? `${vibeInfo.label}: ${vibeInfo.note}` : 'Race with your own rhythm and let this athlete inspire your next session.';
+      }
       
       // Set recommended shoe info
-      const shoe = window.MFMShoes.find(s => s.id === athlete.shoeId);
+      const shoe = Array.isArray(window.MFMShoes)
+        ? window.MFMShoes.find(s => s.id === athlete.shoeId)
+        : null;
+
       if (shoe) {
         document.getElementById('modal-shoe-image').src = `../assets/images/shoes/${shoe.image}`;
         document.getElementById('modal-shoe-image').alt = shoe.name;
@@ -438,10 +774,23 @@
         document.getElementById('modal-shoe-features').textContent = shoe.features;
         document.getElementById('modal-shoe-rating').textContent = '★'.repeat(Math.floor(shoe.rating)) + (shoe.rating % 1 ? '☆' : '');
         document.getElementById('modal-shoe-price').textContent = shoe.price;
+      } else {
+        document.getElementById('modal-shoe-image').src = '';
+        document.getElementById('modal-shoe-image').alt = 'Shoe information unavailable';
+        document.getElementById('modal-shoe-name').textContent = 'Shoe information unavailable';
+        document.getElementById('modal-shoe-brand').textContent = '';
+        document.getElementById('modal-shoe-features').textContent = 'We could not load the linked shoe details for this athlete.';
+        document.getElementById('modal-shoe-rating').textContent = '';
+        document.getElementById('modal-shoe-price').textContent = '';
       }
       
       // Show modal
       modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (modal.querySelector('.modal-close')) {
+        modal.querySelector('.modal-close').focus();
+      }
     }
   </script>
 </body>
