@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마라톤 선수들 | 나에게 맞는 레이싱화는?</title>
+  <meta name="description" content="세계적인 마라톤 선수들의 프로필과 성적을 확인하세요" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <script defer src="../assets/js/data/brands.js"></script>
+  <script defer src="../assets/js/data/shoes.js"></script>
+  <script defer src="../assets/js/data/athletes.js"></script>
+  <script defer src="../assets/js/core/utils.js"></script>
+  <style>
+    .athletes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .athlete-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .athlete-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .athlete-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    .athlete-card-info {
+      padding: 20px;
+    }
+
+    .athlete-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+    }
+
+    .athlete-card .nation {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .athlete-card .bio {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .achievements {
+      background: var(--muted);
+      opacity: 0.1;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .gender-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .male {
+      background: #3b82f6;
+    }
+
+    .female {
+      background: #ec4899;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">Marathon Face Match</div>
+      <nav>
+        <a href="./index.html">홈</a>
+        <a href="./athletes-all.html">선수</a>
+        <a href="./shoes-all.html">신발</a>
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <section class="hero card">
+      <h1>마라톤 선수들</h1>
+      <p>세계적으로 유명한 마라톤 선수들과 그들의 시그니처 신발을 확인하세요!</p>
+
+      <div class="athletes-grid">
+        <script>
+          // 동적으로 선수 카드 생성
+          if (typeof window.MFMAthletes !== 'undefined') {
+            window.MFMAthletes.forEach(athlete => {
+              const genderClass = athlete.gender === 'M' ? 'male' : 'female';
+              const genderText = athlete.gender === 'M' ? '남자' : '여자';
+              
+              const html = `
+                <div class="athlete-card">
+                  <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
+                  <div class="athlete-card-info">
+                    <div class="gender-badge ${genderClass}">${genderText}</div>
+                    <h3>${athlete.name}</h3>
+                    <p class="nation">🌍 ${athlete.nation}</p>
+                    <p class="bio">${athlete.bio}</p>
+                    <div class="achievements">
+                      <strong>성적:</strong><br />
+                      ${athlete.achievements}
+                    </div>
+                  </div>
+                </div>
+              `;
+              document.write(html);
+            });
+          }
+        </script>
+      </div>
+
+      <div class="button-row">
+        <a class="btn" href="./index.html">← 홈으로 돌아가기</a>
+        <a class="btn" href="./shoes-all.html">신발 보기 →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a href="./privacy/index.html">개인정보 처리방침</a>
+      <a href="./terms/index.html">이용약관</a>
+      <a href="./cookie/index.html">쿠키 정책</a>
+    </div>
+  </footer>
+
+  <script>
+    // 테마 토글
+    function initThemeToggle() {
+      const themeToggle = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("theme") || "dark-mode";
+      
+      document.body.className = savedTheme;
+      updateThemeToggleIcon(savedTheme);
+      
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = document.body.className;
+          const newTheme = currentTheme === "dark-mode" ? "light-mode" : "dark-mode";
+          
+          document.body.className = newTheme;
+          localStorage.setItem("theme", newTheme);
+          updateThemeToggleIcon(newTheme);
+        });
+      }
+    }
+
+    function updateThemeToggleIcon(theme) {
+      const themeToggle = document.getElementById("theme-toggle");
+      if (themeToggle) {
+        themeToggle.textContent = theme === "dark-mode" ? "☀️" : "🌙";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initThemeToggle();
+    });
+  </script>
+</body>
+</html>

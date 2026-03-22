@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marathon Face Match</title>
-  <meta name="description" content="A running shoe recommendation site combining face match and foot-profile input" />
+  <title>What Racing Shoe Is Right For Me?</title>
+  <meta name="description" content="Discover the racing shoes worn by marathon athletes who look like you" />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/home.css" />
   <script defer src="../assets/js/data/brands.js"></script>
@@ -21,9 +21,8 @@
       <div class="brand">Marathon Face Match</div>
       <nav>
         <a href="./index.html">Home</a>
-        <a href="./athletes/sifan-hassan.html">Athletes</a>
-        <a href="./brands/nike.html">Brands</a>
-        <a href="./guides/carbon-shoes.html">Guides</a>
+        <a href="./athletes-all.html">Athletes</a>
+        <a href="./shoes-all.html">Shoes</a>
         <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
       </nav>
     </div>
@@ -31,8 +30,8 @@
 
   <main class="page-wrap">
     <section class="hero card">
-      <h1>Marathon Face Match</h1>
-      <p>Match your face and foot type to find your perfect marathon shoe.</p>
+      <h1>What Racing Shoe Is Right For Me?</h1>
+      <p>Discover the racing shoes worn by marathon athletes who look like you!</p>
       
       <!-- Camera Section -->
       <div class="camera-section">
@@ -42,9 +41,9 @@
           <canvas id="camera-canvas" style="display:none;"></canvas>
         </div>
         <div class="button-row">
-          <button id="camera-start" class="btn">Start Camera</button>
-          <button id="camera-stop" class="btn">Stop Camera</button>
-          <button id="camera-capture" class="btn">Capture Snapshot & Analyze</button>
+          <button id="camera-start" class="btn">📷 Step 1: Start Camera</button>
+          <button id="camera-stop" class="btn">⏹️ Step 2: Ready</button>
+          <button id="camera-capture" class="btn">✨ Step 3: Capture & Analyze</button>
         </div>
         <p id="face-detection-status" style="text-align: center; margin-top: 12px; color: var(--muted); font-size: 12px;"></p>
       </div>

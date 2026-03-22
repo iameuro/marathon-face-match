@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marathon Racing Shoes | What Racing Shoe Is Right For Me?</title>
+  <meta name="description" content="Discover the high-performance racing shoes worn by world marathon champions" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <script defer src="../assets/js/data/brands.js"></script>
+  <script defer src="../assets/js/data/shoes.js"></script>
+  <script defer src="../assets/js/data/athletes.js"></script>
+  <script defer src="../assets/js/core/utils.js"></script>
+  <style>
+    .shoes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .shoe-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .shoe-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .shoe-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      background: var(--muted);
+    }
+
+    .shoe-card-info {
+      padding: 20px;
+    }
+
+    .shoe-card h3 {
+      margin: 0 0 4px 0;
+      font-size: 18px;
+    }
+
+    .shoe-brand {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .shoe-features {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .shoe-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .shoe-price {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .shoe-rating {
+      color: #fbbf24;
+      font-size: 14px;
+    }
+
+    .used-by {
+      background: var(--muted);
+      opacity: 0.1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text);
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">Marathon Face Match</div>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./athletes-all.html">Athletes</a>
+        <a href="./shoes-all.html">Shoes</a>
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <section class="hero card">
+      <h1>Marathon Racing Shoes</h1>
+      <p>Discover the high-performance racing shoes worn by world marathon champions!</p>
+
+      <div class="shoes-grid">
+        <script>
+          // Dynamically generate shoe cards
+          if (typeof window.MFMShoes !== 'undefined' && typeof window.MFMAthletes !== 'undefined') {
+            window.MFMShoes.forEach(shoe => {
+              // Find athletes wearing this shoe
+              const usedByAthletes = window.MFMAthletes
+                .filter(a => a.shoeId === shoe.id)
+                .map(a => a.name)
+                .join(', ');
+              
+              const html = `
+                <div class="shoe-card">
+                  <img src="../assets/images/shoes/${shoe.image}" alt="${shoe.name}" />
+                  <div class="shoe-card-info">
+                    <p class="shoe-brand">${shoe.brand}</p>
+                    <h3>${shoe.name}</h3>
+                    <p class="shoe-features">${shoe.features}</p>
+                    <div class="shoe-footer">
+                      <span class="shoe-price">${shoe.price}</span>
+                      <span class="shoe-rating">⭐ ${shoe.rating}</span>
+                    </div>
+                    <div class="used-by">
+                      <strong>Worn by:</strong><br />
+                      ${usedByAthletes}
+                    </div>
+                  </div>
+                </div>
+              `;
+              document.write(html);
+            });
+          }
+        </script>
+      </div>
+
+      <div class="button-row">
+        <a class="btn" href="./index.html">← Back to Home</a>
+        <a class="btn" href="./athletes-all.html">← View Athletes</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a href="./privacy/index.html">Privacy</a>
+      <a href="./terms/index.html">Terms</a>
+      <a href="./cookie/index.html">Cookie Policy</a>
+    </div>
+  </footer>
+
+  <script>
+    function initThemeToggle() {
+      const themeToggle = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("theme") || "dark-mode";
+      
+      document.body.className = savedTheme;
+      updateThemeToggleIcon(savedTheme);
+      
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = document.body.className;
+          const newTheme = currentTheme === "dark-mode" ? "light-mode" : "dark-mode";
+          
+          document.body.className = newTheme;
+          localStorage.setItem("theme", newTheme);
+          updateThemeToggleIcon(newTheme);
+        });
+      }
+    }
+
+    function updateThemeToggleIcon(theme) {
+      const themeToggle = document.getElementById("theme-toggle");
+      if (themeToggle) {
+        themeToggle.textContent = theme === "dark-mode" ? "☀️" : "🌙";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initThemeToggle();
+    });
+  </script>
+</body>
+</html>

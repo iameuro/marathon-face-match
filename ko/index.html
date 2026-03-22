@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>마라톤 얼굴 매칭 러닝화 추천</title>
-  <meta name="description" content="얼굴 매칭과 발 타입 입력을 결합한 마라톤 러닝화 추천 사이트" />
+  <title>나에게 맞는 레이싱화는?</title>
+  <meta name="description" content="당신의 얼굴과 닮은 마라톤 선수가 신는 레이싱화를 추천받으세요" />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/home.css" />
   <script defer src="../assets/js/data/brands.js"></script>
@@ -21,9 +21,8 @@
       <div class="brand">Marathon Face Match</div>
       <nav>
         <a href="./index.html">홈</a>
-        <a href="./athletes/sifan-hassan.html">선수</a>
-        <a href="./brands/nike.html">브랜드</a>
-        <a href="./guides/carbon-shoes.html">가이드</a>
+        <a href="./athletes-all.html">선수</a>
+        <a href="./shoes-all.html">신발</a>
         <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
       </nav>
     </div>
@@ -31,8 +30,8 @@
 
   <main class="page-wrap">
     <section class="hero card">
-      <h1>마라톤 얼굴 매칭 러닝화 추천</h1>
-      <p>당신의 얼굴과 발 타입을 매칭하여 최적의 러닝화를 추천합니다.</p>
+      <h1>나에게 맞는 레이싱화는?</h1>
+      <p>당신의 얼굴과 닮은 선수가 신는 신발을 추천받으세요!</p>
       
       <!-- 카메라 섹션 -->
       <div class="camera-section">
@@ -42,9 +41,9 @@
           <canvas id="camera-canvas" style="display:none;"></canvas>
         </div>
         <div class="button-row">
-          <button id="camera-start" class="btn">카메라 시작</button>
-          <button id="camera-stop" class="btn">카메라 중지</button>
-          <button id="camera-capture" class="btn">스냅샷 캡처 & 분석</button>
+          <button id="camera-start" class="btn">📷 Step 1: 카메라 시작</button>
+          <button id="camera-stop" class="btn">⏹️ Step 2: 준비 완료</button>
+          <button id="camera-capture" class="btn">✨ Step 3: 스냅샷 캡처 & 분석</button>
         </div>
         <p id="face-detection-status" style="text-align: center; margin-top: 12px; color: var(--muted); font-size: 12px;"></p>
       </div>
