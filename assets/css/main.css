@@ -95,6 +95,29 @@ a {
   flex-wrap: wrap;
 }
 
+.nav-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-controls button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-controls button:hover {
+  background: var(--accent);
+  color: #06111a;
+}
+
 .site-header nav a {
   color: var(--muted);
   transition: color 0.3s ease;

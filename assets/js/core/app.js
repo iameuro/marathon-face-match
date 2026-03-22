@@ -412,6 +412,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 테마 토글 초기화
   initThemeToggle();
   
+  // 언어 토글 초기화
+  initLanguageToggle();
+  
   console.log("✅ Using fast image luminance analysis (no ml5.js needed)");
   console.log("⏱️ Performance: ~100ms per analysis");
   
@@ -419,3 +422,36 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCameraButtons();
   console.log("=== Initialization Complete ===");
 });
+
+// 언어 토글 초기화
+function initLanguageToggle() {
+  const languageToggle = document.getElementById("language-toggle");
+  if (!languageToggle) return;
+  
+  // 현재 페이지의 언어에 따라 버튼 텍스트 설정
+  const currentPath = window.location.pathname;
+  if (currentPath.includes('/ko/')) {
+    languageToggle.textContent = 'EN';
+  } else if (currentPath.includes('/en/')) {
+    languageToggle.textContent = 'KO';
+  }
+  
+  languageToggle.addEventListener("click", () => {
+    const currentPath = window.location.pathname;
+    let newPath;
+    
+    if (currentPath.includes('/ko/')) {
+      // 한국어 → 영어
+      newPath = currentPath.replace('/ko/', '/en/');
+    } else if (currentPath.includes('/en/')) {
+      // 영어 → 한국어
+      newPath = currentPath.replace('/en/', '/ko/');
+    } else {
+      // 루트 페이지
+      newPath = currentPath.replace('/index.html', '/ko/index.html');
+    }
+    
+    // 페이지 이동
+    window.location.href = newPath;
+  });
+}
