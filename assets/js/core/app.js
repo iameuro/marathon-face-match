@@ -82,7 +82,13 @@ function matchAthlete(gender) {
 
   // Random selection (can be enhanced with facial feature analysis)
   const randomIndex = Math.floor(Math.random() * targetAthletes.length);
-  return targetAthletes[randomIndex];
+  const selectedAthlete = targetAthletes[randomIndex];
+  
+  // Generate similarity percentage (65-95%)
+  const similarityPercentage = Math.floor(Math.random() * 30) + 65;
+  selectedAthlete.similarity = similarityPercentage;
+  
+  return selectedAthlete;
 }
 
 // Get shoe information
@@ -105,6 +111,12 @@ function displayMatchResult(athlete, shoe) {
   }
 
   try {
+    // Set similarity percentage
+    const similaritySpan = document.getElementById("result-similarity");
+    if (similaritySpan) {
+      similaritySpan.textContent = athlete.similarity || 75;
+    }
+
     // Set athlete information
     const athleteName = document.getElementById("result-athlete-name");
     const athleteNation = document.getElementById("result-athlete-nation");
