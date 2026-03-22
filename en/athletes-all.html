@@ -89,6 +89,158 @@
       background: #ec4899;
     }
   </style>
+  <style>
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--panel);
+      border-radius: 16px;
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 32px;
+      color: var(--text);
+      cursor: pointer;
+      z-index: 1001;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.8;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+    }
+
+    .modal-body {
+      padding: 32px;
+    }
+
+    .athlete-detail {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .athlete-detail img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .athlete-info h2 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+    }
+
+    .athlete-info .nation {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .athlete-info .bio {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .athlete-info .achievements {
+      background: var(--muted);
+      opacity: 0.1;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .recommended-shoe h3 {
+      margin: 0 0 16px 0;
+      font-size: 20px;
+    }
+
+    .shoe-card {
+      display: flex;
+      gap: 20px;
+      background: var(--muted);
+      opacity: 0.05;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .shoe-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .shoe-info h4 {
+      margin: 0 0 4px 0;
+      font-size: 18px;
+    }
+
+    .shoe-info p {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .shoe-rating {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .shoe-rating span:first-child {
+      color: #fbbf24;
+    }
+
+    @media (max-width: 768px) {
+      .athlete-detail {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .athlete-detail img {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -144,6 +296,40 @@
     </section>
   </main>
 
+  <!-- Athlete Detail Modal -->
+  <div id="athlete-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <div class="athlete-detail">
+          <img id="modal-athlete-image" src="" alt="" />
+          <div class="athlete-info">
+            <div id="modal-athlete-gender" class="gender-badge"></div>
+            <h2 id="modal-athlete-name"></h2>
+            <p id="modal-athlete-nation" class="nation"></p>
+            <p id="modal-athlete-bio" class="bio"></p>
+            <div id="modal-athlete-achievements" class="achievements"></div>
+            <div class="recommended-shoe">
+              <h3>Recommended Shoe</h3>
+              <div class="shoe-card">
+                <img id="modal-shoe-image" src="" alt="" />
+                <div class="shoe-info">
+                  <h4 id="modal-shoe-name"></h4>
+                  <p id="modal-shoe-brand"></p>
+                  <p id="modal-shoe-features"></p>
+                  <div class="shoe-rating">
+                    <span id="modal-shoe-rating">★★★★★</span>
+                    <span id="modal-shoe-price"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="container">
       <a href="./privacy/index.html">Privacy</a>
@@ -181,7 +367,64 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       initThemeToggle();
+      initAthleteModals();
     });
+
+    function initAthleteModals() {
+      const modal = document.getElementById('athlete-modal');
+      const closeBtn = modal.querySelector('.modal-close');
+      
+      // Close modal when clicking close button or overlay
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      
+      // Add click events to athlete cards
+      document.querySelectorAll('.athlete-card').forEach((card, index) => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          showAthleteModal(window.MFMAthletes[index]);
+        });
+      });
+    }
+
+    function showAthleteModal(athlete) {
+      const modal = document.getElementById('athlete-modal');
+      
+      // Set athlete info
+      document.getElementById('modal-athlete-image').src = `../assets/images/athletes/${athlete.image}`;
+      document.getElementById('modal-athlete-image').alt = athlete.name;
+      
+      const genderBadge = document.getElementById('modal-athlete-gender');
+      genderBadge.className = `gender-badge ${athlete.gender === 'M' ? 'male' : 'female'}`;
+      genderBadge.textContent = athlete.gender === 'M' ? 'Male' : 'Female';
+      
+      document.getElementById('modal-athlete-name').textContent = athlete.name;
+      document.getElementById('modal-athlete-nation').textContent = `🌍 ${athlete.nation}`;
+      document.getElementById('modal-athlete-bio').textContent = athlete.bio;
+      document.getElementById('modal-athlete-achievements').innerHTML = `<strong>Achievements:</strong><br />${athlete.achievements}`;
+      
+      // Set recommended shoe info
+      const shoe = window.MFMShoes.find(s => s.id === athlete.shoeId);
+      if (shoe) {
+        document.getElementById('modal-shoe-image').src = `../assets/images/shoes/${shoe.image}`;
+        document.getElementById('modal-shoe-image').alt = shoe.name;
+        document.getElementById('modal-shoe-name').textContent = shoe.name;
+        document.getElementById('modal-shoe-brand').textContent = shoe.brand;
+        document.getElementById('modal-shoe-features').textContent = shoe.features;
+        document.getElementById('modal-shoe-rating').textContent = '★'.repeat(Math.floor(shoe.rating)) + (shoe.rating % 1 ? '☆' : '');
+        document.getElementById('modal-shoe-price').textContent = shoe.price;
+      }
+      
+      // Show modal
+      modal.style.display = 'flex';
+    }
   </script>
 </body>
 </html>
