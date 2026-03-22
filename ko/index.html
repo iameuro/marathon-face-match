@@ -52,13 +52,32 @@
 
       <!-- 매칭 결과 섹션 -->
       <div id="match-result" class="match-result-section" style="display: none;">
-        <div style="text-align: center; margin-bottom: 32px;">
-          <div style="font-size: 48px; font-weight: 700; color: var(--accent); margin-bottom: 12px;">
-            <span id="result-similarity">00</span>%
+        <!-- 얼굴 비교 섹션 -->
+        <div class="face-comparison-section">
+          <div class="face-comparison-container">
+            <div class="face-comparison-item">
+              <div class="face-image-wrapper">
+                <img id="captured-face-image" src="" alt="당신의 얼굴" />
+              </div>
+              <p class="face-label">당신의 얼굴</p>
+            </div>
+            
+            <div class="face-similarity-display">
+              <div class="similarity-badge">
+                <span id="result-similarity">00</span>%
+              </div>
+              <p>유사도</p>
+            </div>
+            
+            <div class="face-comparison-item">
+              <div class="face-image-wrapper">
+                <img id="matched-athlete-face" src="" alt="닮은 선수" />
+              </div>
+              <p class="face-label" id="matched-athlete-name-label">선수명</p>
+            </div>
           </div>
-          <p style="color: var(--muted); font-size: 14px;">유사도</p>
         </div>
-        
+
         <h2 style="margin-top: 32px;">🎯 당신을 닮은 선수</h2>
         
         <div class="athlete-match-card">

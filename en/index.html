@@ -52,13 +52,32 @@
 
       <!-- Match Result Section -->
       <div id="match-result" class="match-result-section" style="display: none;">
-        <div style="text-align: center; margin-bottom: 32px;">
-          <div style="font-size: 48px; font-weight: 700; color: var(--accent); margin-bottom: 12px;">
-            <span id="result-similarity">00</span>%
+        <!-- 얼굴 비교 섹션 -->
+        <div class="face-comparison-section">
+          <div class="face-comparison-container">
+            <div class="face-comparison-item">
+              <div class="face-image-wrapper">
+                <img id="captured-face-image" src="" alt="Your Face" />
+              </div>
+              <p class="face-label">Your Face</p>
+            </div>
+            
+            <div class="face-similarity-display">
+              <div class="similarity-badge">
+                <span id="result-similarity">00</span>%
+              </div>
+              <p>Similarity</p>
+            </div>
+            
+            <div class="face-comparison-item">
+              <div class="face-image-wrapper">
+                <img id="matched-athlete-face" src="" alt="Matched Athlete" />
+              </div>
+              <p class="face-label" id="matched-athlete-name-label">Athlete Name</p>
+            </div>
           </div>
-          <p style="color: var(--muted); font-size: 14px;">Similarity</p>
         </div>
-        
+
         <h2 style="margin-top: 32px;">🎯 Athlete Recommendation</h2>
         
         <div class="athlete-match-card">

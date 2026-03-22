@@ -272,8 +272,99 @@ body.light-mode .camera-section button {
   font-size: 16px;
 }
 
+/* Face Comparison Section */
+.face-comparison-section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px 24px;
+  margin-bottom: 32px;
+}
+
+.face-comparison-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.face-comparison-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.face-image-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 24px rgba(87, 241, 199, 0.2);
+}
+
+.face-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.face-label {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
+.face-similarity-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.similarity-badge {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #90f3ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #06111a;
+  font-weight: 700;
+  font-size: 48px;
+  box-shadow: 0 8px 24px rgba(87, 241, 199, 0.3);
+}
+
+.face-similarity-display > p {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .face-comparison-container {
+    gap: 16px;
+  }
+
+  .face-image-wrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .similarity-badge {
+    width: 120px;
+    height: 120px;
+    font-size: 36px;
+  }
+
   .athlete-match-card,
   .shoe-recommendation-card {
     grid-template-columns: 1fr;

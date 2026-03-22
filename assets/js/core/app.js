@@ -1,6 +1,7 @@
 // Facial Recognition & Athlete Matching System
 let faceDetector = null;
 let isFaceDetecting = false;
+let capturedImageBase64 = null; // Store captured image as base64
 
 // Initialize face detection model
 async function initFaceDetection() {
@@ -111,6 +112,26 @@ function displayMatchResult(athlete, shoe) {
   }
 
   try {
+    // Set captured face image
+    const capturedFaceImage = document.getElementById("captured-face-image");
+    if (capturedFaceImage && capturedImageBase64) {
+      capturedFaceImage.src = capturedImageBase64;
+      capturedFaceImage.alt = "당신의 얼굴";
+    }
+
+    // Set matched athlete face image for comparison
+    const matchedAthleteFace = document.getElementById("matched-athlete-face");
+    if (matchedAthleteFace) {
+      matchedAthleteFace.src = `../assets/images/athletes/${athlete.image}`;
+      matchedAthleteFace.alt = athlete.name;
+    }
+
+    // Set matched athlete name label
+    const matchedAthleteNameLabel = document.getElementById("matched-athlete-name-label");
+    if (matchedAthleteNameLabel) {
+      matchedAthleteNameLabel.textContent = athlete.name;
+    }
+
     // Set similarity percentage
     const similaritySpan = document.getElementById("result-similarity");
     if (similaritySpan) {
@@ -296,6 +317,9 @@ async function captureAndAnalyze() {
     canvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0);
     
+    // 캡처된 이미지를 base64로 저장
+    capturedImageBase64 = canvas.toDataURL("image/jpeg", 0.8);
+    console.log("Image captured and stored as base64");
     console.log("Canvas captured:", canvas.width, "x", canvas.height);
     
     if (status) {
@@ -382,6 +406,7 @@ function setupCameraButtons() {
     resetBtn.addEventListener("click", () => {
       console.log("Reset button clicked");
       document.getElementById("match-result").style.display = "none";
+      capturedImageBase64 = null; // Reset captured image
       const status = document.getElementById("face-detection-status");
       if (status) {
         status.textContent = "";
