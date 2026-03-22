@@ -263,33 +263,8 @@
       <h1>Marathon Athletes</h1>
       <p>Discover world-class marathon athletes and their signature racing shoes!</p>
 
-      <div class="athletes-grid">
-        <script>
-          // Dynamically generate athlete cards
-          if (typeof window.MFMAthletes !== 'undefined') {
-            window.MFMAthletes.forEach(athlete => {
-              const genderClass = athlete.gender === 'M' ? 'male' : 'female';
-              const genderText = athlete.gender === 'M' ? 'Male' : 'Female';
-              
-              const html = `
-                <div class="athlete-card">
-                  <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
-                  <div class="athlete-card-info">
-                    <div class="gender-badge ${genderClass}">${genderText}</div>
-                    <h3>${athlete.name}</h3>
-                    <p class="nation">🌍 ${athlete.nation}</p>
-                    <p class="bio">${athlete.bio}</p>
-                    <div class="achievements">
-                      <strong>Achievements:</strong><br />
-                      ${athlete.achievements}
-                    </div>
-                  </div>
-                </div>
-              `;
-              document.write(html);
-            });
-          }
-        </script>
+      <div class="athletes-grid" id="athletes-grid">
+        <!-- Athlete cards will be dynamically added here -->
       </div>
 
       <div class="button-row">
@@ -372,7 +347,35 @@
       initThemeToggle();
       initAthleteModals();
       initLanguageToggle();
+      initAthleteCards();
     });
+
+    function initAthleteCards() {
+      const grid = document.getElementById('athletes-grid');
+      if (!grid || typeof window.MFMAthletes === 'undefined') return;
+
+      window.MFMAthletes.forEach(athlete => {
+        const genderClass = athlete.gender === 'M' ? 'male' : 'female';
+        const genderText = athlete.gender === 'M' ? 'Male' : 'Female';
+        
+        const card = document.createElement('div');
+        card.className = 'athlete-card';
+        card.innerHTML = `
+          <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
+          <div class="athlete-card-info">
+            <div class="gender-badge ${genderClass}">${genderText}</div>
+            <h3>${athlete.name}</h3>
+            <p class="nation">🌍 ${athlete.nation}</p>
+            <p class="bio">${athlete.bio}</p>
+            <div class="achievements">
+              <strong>Achievements:</strong><br />
+              ${athlete.achievements}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
     function initLanguageToggle() {
       const languageToggle = document.getElementById("language-toggle");

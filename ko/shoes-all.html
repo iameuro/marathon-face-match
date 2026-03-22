@@ -286,39 +286,8 @@
       <h1>마라톤 레이싱화</h1>
       <p>세계 마라톤 챔피언들이 신는 고성능 레이싱화를 확인하세요!</p>
 
-      <div class="shoes-grid">
-        <script>
-          // 동적으로 신발 카드 생성
-          if (typeof window.MFMShoes !== 'undefined' && typeof window.MFMAthletes !== 'undefined') {
-            window.MFMShoes.forEach(shoe => {
-              // 이 신발을 신는 선수 찾기
-              const usedByAthletes = window.MFMAthletes
-                .filter(a => a.shoeId === shoe.id)
-                .map(a => a.name)
-                .join(', ');
-              
-              const html = `
-                <div class="shoe-card">
-                  <img src="../assets/images/shoes/${shoe.image}" alt="${shoe.name}" />
-                  <div class="shoe-card-info">
-                    <p class="shoe-brand">${shoe.brand}</p>
-                    <h3>${shoe.name}</h3>
-                    <p class="shoe-features">${shoe.features}</p>
-                    <div class="shoe-footer">
-                      <span class="shoe-price">${shoe.price}</span>
-                      <span class="shoe-rating">⭐ ${shoe.rating}</span>
-                    </div>
-                    <div class="used-by">
-                      <strong>사용 선수:</strong><br />
-                      ${usedByAthletes}
-                    </div>
-                  </div>
-                </div>
-              `;
-              document.write(html);
-            });
-          }
-        </script>
+      <div class="shoes-grid" id="shoes-grid">
+        <!-- 신발 카드가 여기에 동적으로 추가됩니다 -->
       </div>
 
       <div class="button-row">
@@ -393,7 +362,41 @@
       initThemeToggle();
       initShoeModals();
       initLanguageToggle();
+      initShoeCards();
     });
+
+    function initShoeCards() {
+      const grid = document.getElementById('shoes-grid');
+      if (!grid || typeof window.MFMShoes === 'undefined' || typeof window.MFMAthletes === 'undefined') return;
+
+      window.MFMShoes.forEach(shoe => {
+        // 이 신발을 신는 선수 찾기
+        const usedByAthletes = window.MFMAthletes
+          .filter(a => a.shoeId === shoe.id)
+          .map(a => a.name)
+          .join(', ');
+        
+        const card = document.createElement('div');
+        card.className = 'shoe-card';
+        card.innerHTML = `
+          <img src="../assets/images/shoes/${shoe.image}" alt="${shoe.name}" />
+          <div class="shoe-card-info">
+            <p class="shoe-brand">${shoe.brand}</p>
+            <h3>${shoe.name}</h3>
+            <p class="shoe-features">${shoe.features}</p>
+            <div class="shoe-footer">
+              <span class="shoe-price">${shoe.price}</span>
+              <span class="shoe-rating">⭐ ${shoe.rating}</span>
+            </div>
+            <div class="used-by">
+              <strong>사용 선수:</strong><br />
+              ${usedByAthletes}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
     function initLanguageToggle() {
       const languageToggle = document.getElementById("language-toggle");

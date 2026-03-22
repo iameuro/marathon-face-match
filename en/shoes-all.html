@@ -286,39 +286,8 @@
       <h1>Marathon Racing Shoes</h1>
       <p>Discover the high-performance racing shoes worn by world marathon champions!</p>
 
-      <div class="shoes-grid">
-        <script>
-          // Dynamically generate shoe cards
-          if (typeof window.MFMShoes !== 'undefined' && typeof window.MFMAthletes !== 'undefined') {
-            window.MFMShoes.forEach(shoe => {
-              // Find athletes wearing this shoe
-              const usedByAthletes = window.MFMAthletes
-                .filter(a => a.shoeId === shoe.id)
-                .map(a => a.name)
-                .join(', ');
-              
-              const html = `
-                <div class="shoe-card">
-                  <img src="../assets/images/shoes/${shoe.image}" alt="${shoe.name}" />
-                  <div class="shoe-card-info">
-                    <p class="shoe-brand">${shoe.brand}</p>
-                    <h3>${shoe.name}</h3>
-                    <p class="shoe-features">${shoe.features}</p>
-                    <div class="shoe-footer">
-                      <span class="shoe-price">${shoe.price}</span>
-                      <span class="shoe-rating">⭐ ${shoe.rating}</span>
-                    </div>
-                    <div class="used-by">
-                      <strong>Worn by:</strong><br />
-                      ${usedByAthletes}
-                    </div>
-                  </div>
-                </div>
-              `;
-              document.write(html);
-            });
-          }
-        </script>
+      <div class="shoes-grid" id="shoes-grid">
+        <!-- Shoe cards will be dynamically added here -->
       </div>
 
       <div class="button-row">
@@ -392,7 +361,41 @@
       initThemeToggle();
       initShoeModals();
       initLanguageToggle();
+      initShoeCards();
     });
+
+    function initShoeCards() {
+      const grid = document.getElementById('shoes-grid');
+      if (!grid || typeof window.MFMShoes === 'undefined' || typeof window.MFMAthletes === 'undefined') return;
+
+      window.MFMShoes.forEach(shoe => {
+        // Find athletes wearing this shoe
+        const usedByAthletes = window.MFMAthletes
+          .filter(a => a.shoeId === shoe.id)
+          .map(a => a.name)
+          .join(', ');
+        
+        const card = document.createElement('div');
+        card.className = 'shoe-card';
+        card.innerHTML = `
+          <img src="../assets/images/shoes/${shoe.image}" alt="${shoe.name}" />
+          <div class="shoe-card-info">
+            <p class="shoe-brand">${shoe.brand}</p>
+            <h3>${shoe.name}</h3>
+            <p class="shoe-features">${shoe.features}</p>
+            <div class="shoe-footer">
+              <span class="shoe-price">${shoe.price}</span>
+              <span class="shoe-rating">⭐ ${shoe.rating}</span>
+            </div>
+            <div class="used-by">
+              <strong>Worn by:</strong><br />
+              ${usedByAthletes}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
     function initLanguageToggle() {
       const languageToggle = document.getElementById("language-toggle");

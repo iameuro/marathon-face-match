@@ -263,33 +263,8 @@
       <h1>마라톤 선수들</h1>
       <p>세계적으로 유명한 마라톤 선수들과 그들의 시그니처 신발을 확인하세요!</p>
 
-      <div class="athletes-grid">
-        <script>
-          // 동적으로 선수 카드 생성
-          if (typeof window.MFMAthletes !== 'undefined') {
-            window.MFMAthletes.forEach(athlete => {
-              const genderClass = athlete.gender === 'M' ? 'male' : 'female';
-              const genderText = athlete.gender === 'M' ? '남자' : '여자';
-              
-              const html = `
-                <div class="athlete-card">
-                  <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
-                  <div class="athlete-card-info">
-                    <div class="gender-badge ${genderClass}">${genderText}</div>
-                    <h3>${athlete.name}</h3>
-                    <p class="nation">🌍 ${athlete.nation}</p>
-                    <p class="bio">${athlete.bio}</p>
-                    <div class="achievements">
-                      <strong>성적:</strong><br />
-                      ${athlete.achievements}
-                    </div>
-                  </div>
-                </div>
-              `;
-              document.write(html);
-            });
-          }
-        </script>
+      <div class="athletes-grid" id="athletes-grid">
+        <!-- 선수 카드가 여기에 동적으로 추가됩니다 -->
       </div>
 
       <div class="button-row">
@@ -373,7 +348,35 @@
       initThemeToggle();
       initAthleteModals();
       initLanguageToggle();
+      initAthleteCards();
     });
+
+    function initAthleteCards() {
+      const grid = document.getElementById('athletes-grid');
+      if (!grid || typeof window.MFMAthletes === 'undefined') return;
+
+      window.MFMAthletes.forEach(athlete => {
+        const genderClass = athlete.gender === 'M' ? 'male' : 'female';
+        const genderText = athlete.gender === 'M' ? '남자' : '여자';
+        
+        const card = document.createElement('div');
+        card.className = 'athlete-card';
+        card.innerHTML = `
+          <img src="../assets/images/athletes/${athlete.image}" alt="${athlete.name}" />
+          <div class="athlete-card-info">
+            <div class="gender-badge ${genderClass}">${genderText}</div>
+            <h3>${athlete.name}</h3>
+            <p class="nation">🌍 ${athlete.nation}</p>
+            <p class="bio">${athlete.bio}</p>
+            <div class="achievements">
+              <strong>성적:</strong><br />
+              ${athlete.achievements}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
     function initLanguageToggle() {
       const languageToggle = document.getElementById("language-toggle");
