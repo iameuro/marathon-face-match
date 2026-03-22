@@ -5,15 +5,21 @@ let isFaceDetecting = false;
 // Initialize face detection model
 async function initFaceDetection() {
   try {
-    faceDetector = await ml5.faceDetect('front-face', { returnTensors: false });
-    console.log("Face detection model loaded");
+    if (typeof ml5 === 'undefined') {
+      console.error("ml5.js not loaded");
+      return;
+    }
+    // ml5.js의 실제 face detection API 사용
+    faceDetector = await ml5.faceApi();
+    console.log("Face detection model loaded successfully");
   } catch (error) {
     console.error("Face detection model failed to load:", error);
+    alert("얼굴 감지 모델 로드 실패. 페이지를 새로고침해주세요.");
   }
 }
 
 // Detect faces in captured image
-async function detectFaceInCapture(imageData) {
+async function detectFaceInCapture() {
   if (!faceDetector) {
     console.error("Face detector not initialized");
     return null;
@@ -21,13 +27,19 @@ async function detectFaceInCapture(imageData) {
 
   try {
     const canvas = document.getElementById("camera-canvas");
-    const predictions = await faceDetector.estimateFaces(canvas);
+    if (!canvas) {
+      console.error("Canvas element not found");
+      return null;
+    }
+
+    // faceApi.detect() 사용
+    const predictions = await faceDetector.detect(canvas);
     
     if (predictions && predictions.length > 0) {
       console.log("Face detected:", predictions[0]);
       return predictions[0];
     } else {
-      console.log("No face detected");
+      console.log("No face detected in canvas");
       return null;
     }
   } catch (error) {
@@ -72,30 +84,59 @@ function displayMatchResult(athlete, shoe) {
   const resultSection = document.getElementById("match-result");
   
   if (!resultSection || !athlete || !shoe) {
-    console.error("Missing elements or data for display");
+    console.error("Missing elements or data for display", {
+      resultSection: !!resultSection,
+      athlete: !!athlete,
+      shoe: !!shoe
+    });
     return;
   }
 
-  // Set athlete information
-  document.getElementById("result-athlete-name").textContent = athlete.name;
-  document.getElementById("result-athlete-nation").textContent = `🇰🇪 ${athlete.nation}`;
-  document.getElementById("result-athlete-bio").textContent = athlete.bio;
-  document.getElementById("result-athlete-achievements").textContent = athlete.achievements;
-  document.getElementById("result-athlete-image").src = `../assets/images/athletes/${athlete.image}`;
-  document.getElementById("result-athlete-image").alt = athlete.name;
+  try {
+    // Set athlete information
+    const athleteName = document.getElementById("result-athlete-name");
+    const athleteNation = document.getElementById("result-athlete-nation");
+    const athleteBio = document.getElementById("result-athlete-bio");
+    const athleteAchievements = document.getElementById("result-athlete-achievements");
+    const athleteImage = document.getElementById("result-athlete-image");
 
-  // Set shoe information
-  document.getElementById("result-shoe-name").textContent = shoe.name;
-  document.getElementById("result-shoe-brand").textContent = `${shoe.brand}`;
-  document.getElementById("result-shoe-features").textContent = shoe.features;
-  document.getElementById("result-shoe-price").textContent = shoe.price;
-  document.getElementById("result-shoe-rating").textContent = shoe.rating;
-  document.getElementById("result-shoe-image").src = `../assets/images/shoes/${shoe.image}`;
-  document.getElementById("result-shoe-image").alt = shoe.name;
+    if (athleteName) athleteName.textContent = athlete.name;
+    if (athleteNation) athleteNation.textContent = `🇰🇪 ${athlete.nation}`;
+    if (athleteBio) athleteBio.textContent = athlete.bio;
+    if (athleteAchievements) athleteAchievements.textContent = athlete.achievements;
+    if (athleteImage) {
+      athleteImage.src = `../assets/images/athletes/${athlete.image}`;
+      athleteImage.alt = athlete.name;
+      console.log("Athlete image path:", athleteImage.src);
+    }
 
-  // Show result section
-  resultSection.style.display = "block";
-  resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Set shoe information
+    const shoeName = document.getElementById("result-shoe-name");
+    const shoeBrand = document.getElementById("result-shoe-brand");
+    const shoeFeatures = document.getElementById("result-shoe-features");
+    const shoePrice = document.getElementById("result-shoe-price");
+    const shoeRating = document.getElementById("result-shoe-rating");
+    const shoeImage = document.getElementById("result-shoe-image");
+
+    if (shoeName) shoeName.textContent = shoe.name;
+    if (shoeBrand) shoeBrand.textContent = `${shoe.brand}`;
+    if (shoeFeatures) shoeFeatures.textContent = shoe.features;
+    if (shoePrice) shoePrice.textContent = shoe.price;
+    if (shoeRating) shoeRating.textContent = shoe.rating;
+    if (shoeImage) {
+      shoeImage.src = `../assets/images/shoes/${shoe.image}`;
+      shoeImage.alt = shoe.name;
+      console.log("Shoe image path:", shoeImage.src);
+    }
+
+    // Show result section
+    resultSection.style.display = "block";
+    resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    
+    console.log("Match result displayed successfully");
+  } catch (error) {
+    console.error("Error displaying match result:", error);
+  }
 }
 
 // Determine gender based on face detection (simplified)
@@ -104,6 +145,24 @@ function determineeGender(faceData) {
   // For now, we'll alternate or use random selection
   const random = Math.random();
   return random > 0.5 ? "M" : "F";
+}
+
+// 테스트 함수 - 결과 표시 테스트
+function testDisplayResult() {
+  console.log("=== Testing Display Result ===");
+  
+  if (!window.MFMAthletes || !window.MFMShoes) {
+    console.error("Data not loaded");
+    return;
+  }
+
+  const testAthlete = window.MFMAthletes[0];
+  const testShoe = window.MFMShoes[0];
+  
+  console.log("Test athlete:", testAthlete);
+  console.log("Test shoe:", testShoe);
+  
+  displayMatchResult(testAthlete, testShoe);
 }
 
 // 다크모드 토글 기능
@@ -173,7 +232,18 @@ async function captureAndAnalyze() {
   const canvas = document.getElementById("camera-canvas");
   const status = document.getElementById("face-detection-status");
   
-  if (!video || !canvas) return;
+  if (!video || !canvas) {
+    console.error("Video or canvas element not found");
+    return;
+  }
+
+  // 비디오가 준비되었는지 확인
+  if (video.readyState !== video.HAVE_ENOUGH_DATA) {
+    if (status) {
+      status.textContent = "⚠️ 카메라가 준비 중입니다. 잠시 후 다시 시도해주세요.";
+    }
+    return;
+  }
   
   try {
     // 캡처
@@ -182,8 +252,10 @@ async function captureAndAnalyze() {
     canvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0);
     
+    console.log("Canvas captured:", canvas.width, "x", canvas.height);
+    
     if (status) {
-      status.textContent = "얼굴을 분석 중입니다...";
+      status.textContent = "🔍 얼굴을 분석 중입니다...";
     }
 
     // 얼굴 감지
@@ -191,14 +263,14 @@ async function captureAndAnalyze() {
     
     if (!faceDetected) {
       if (status) {
-        status.textContent = "얼굴을 감지하지 못했습니다. 다시 시도해주세요.";
+        status.textContent = "❌ 얼굴을 감지하지 못했습니다. 밝은 곳에서 정면을 향해 다시 시도해주세요.";
       }
-      alert("얼굴을 감지하지 못했습니다. 밝은 곳에서 정면을 향해 다시 시도해주세요.");
       return;
     }
 
     // 성별 판단
     const gender = determineeGender(faceDetected);
+    console.log("Detected gender:", gender);
     
     // 선수 매칭
     const matchedAthlete = matchAthlete(gender);
@@ -209,14 +281,19 @@ async function captureAndAnalyze() {
       return;
     }
 
+    console.log("Matched athlete:", matchedAthlete.name);
+
     // 신발 정보 조회
     const shoe = getShoeInfo(matchedAthlete.shoeId);
     if (!shoe) {
       if (status) {
         status.textContent = "신발 정보를 찾을 수 없습니다.";
       }
+      console.error("Shoe not found for ID:", matchedAthlete.shoeId);
       return;
     }
+
+    console.log("Matched shoe:", shoe.name);
 
     // 결과 표시
     if (status) {
@@ -228,7 +305,7 @@ async function captureAndAnalyze() {
   } catch (error) {
     console.error("캡처/분석 오류:", error);
     if (status) {
-      status.textContent = "분석 중 오류가 발생했습니다.";
+      status.textContent = "❌ 분석 중 오류가 발생했습니다. 콘솔을 확인해주세요.";
     }
   }
 }
@@ -240,17 +317,34 @@ function setupCameraButtons() {
   const captureBtn = document.getElementById("camera-capture");
   const resetBtn = document.getElementById("reset-match");
   
+  console.log("Button elements check:", {
+    startBtn: !!startBtn,
+    stopBtn: !!stopBtn,
+    captureBtn: !!captureBtn,
+    resetBtn: !!resetBtn
+  });
+  
   if (startBtn) {
-    startBtn.addEventListener("click", initCamera);
+    startBtn.addEventListener("click", () => {
+      console.log("Start camera button clicked");
+      initCamera();
+    });
   }
   if (stopBtn) {
-    stopBtn.addEventListener("click", stopCamera);
+    stopBtn.addEventListener("click", () => {
+      console.log("Stop camera button clicked");
+      stopCamera();
+    });
   }
   if (captureBtn) {
-    captureBtn.addEventListener("click", captureAndAnalyze);
+    captureBtn.addEventListener("click", () => {
+      console.log("Capture button clicked");
+      captureAndAnalyze();
+    });
   }
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
+      console.log("Reset button clicked");
       document.getElementById("match-result").style.display = "none";
       const status = document.getElementById("face-detection-status");
       if (status) {
@@ -262,22 +356,44 @@ function setupCameraButtons() {
 
 // DOM 로드 완료 시 실행
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Marathon Face Match scaffold ready");
+  console.log("=== Marathon Face Match Initialization ===");
   
+  // 데이터 확인
   if (window.MFMAthletes) {
-    console.log("Athletes loaded:", window.MFMAthletes.length);
+    console.log("✅ Athletes loaded:", window.MFMAthletes.length);
+    console.log("Athletes:", window.MFMAthletes.map(a => a.name));
+  } else {
+    console.warn("❌ Athletes data not found");
+  }
+
+  if (window.MFMShoes) {
+    console.log("✅ Shoes loaded:", window.MFMShoes.length);
+    console.log("Shoes:", window.MFMShoes.map(s => s.name));
+  } else {
+    console.warn("❌ Shoes data not found");
   }
   
   // 테마 토글 초기화
   initThemeToggle();
   
-  // 얼굴 감지 모델 초기화
+  // ml5.js 확인
   if (typeof ml5 !== "undefined") {
+    console.log("✅ ml5.js loaded");
     initFaceDetection();
   } else {
-    console.warn("ml5.js not loaded yet");
+    console.warn("⚠️ ml5.js not loaded yet - will retry");
+    // ml5.js가 비동기로 로드될 때 재시도
+    setTimeout(() => {
+      if (typeof ml5 !== "undefined") {
+        console.log("✅ ml5.js loaded (delayed)");
+        initFaceDetection();
+      } else {
+        console.error("❌ ml5.js failed to load after 2 seconds");
+      }
+    }, 2000);
   }
   
   // 카메라 버튼 설정
   setupCameraButtons();
+  console.log("=== Initialization Complete ===");
 });
