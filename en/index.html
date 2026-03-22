@@ -12,6 +12,8 @@
   <script defer src="../assets/js/data/athletes.js"></script>
   <script defer src="../assets/js/core/utils.js"></script>
   <script defer src="../assets/js/core/app.js"></script>
+  <!-- Face Detection Library -->
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/ml5.js/0.12.0/ml5.min.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -42,7 +44,52 @@
         <div class="button-row">
           <button id="camera-start" class="btn">Start Camera</button>
           <button id="camera-stop" class="btn">Stop Camera</button>
-          <button id="camera-capture" class="btn">Capture Snapshot</button>
+          <button id="camera-capture" class="btn">Capture Snapshot & Analyze</button>
+        </div>
+        <p id="face-detection-status" style="text-align: center; margin-top: 12px; color: var(--muted); font-size: 12px;"></p>
+      </div>
+
+      <!-- Match Result Section -->
+      <div id="match-result" class="match-result-section" style="display: none;">
+        <h2 style="margin-top: 32px;">🎯 Athlete Recommendation</h2>
+        
+        <div class="athlete-match-card">
+          <div class="match-athlete-image">
+            <img id="result-athlete-image" src="" alt="Matched Athlete" />
+          </div>
+          <div class="match-athlete-info">
+            <h3 id="result-athlete-name"></h3>
+            <p id="result-athlete-nation" class="athlete-nation"></p>
+            <p id="result-athlete-bio" class="athlete-bio"></p>
+            
+            <div class="achievements-section">
+              <h4>Key Achievements</h4>
+              <p id="result-athlete-achievements" class="athlete-achievements"></p>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 32px;">👟 Recommended Shoe</h2>
+        
+        <div class="shoe-recommendation-card">
+          <div class="shoe-image-section">
+            <img id="result-shoe-image" src="" alt="Recommended Shoe" />
+          </div>
+          <div class="shoe-info-section">
+            <h3 id="result-shoe-name"></h3>
+            <p id="result-shoe-brand" class="shoe-brand"></p>
+            <p id="result-shoe-features" class="shoe-features"></p>
+            <div class="shoe-details">
+              <p><strong>Price:</strong> <span id="result-shoe-price"></span></p>
+              <div class="shoe-rating">
+                <span>⭐ <span id="result-shoe-rating"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row" style="margin-top: 24px;">
+          <button id="reset-match" class="btn">Try Again</button>
         </div>
       </div>
 

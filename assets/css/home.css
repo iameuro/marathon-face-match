@@ -131,3 +131,189 @@ body.light-mode .camera-section button {
     font-size: 12px;
   }
 }
+
+/* Match Result Section */
+.match-result-section {
+  margin-top: 32px;
+}
+
+.match-result-section h2 {
+  font-size: clamp(20px, 4vw, 28px);
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.athlete-match-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.match-athlete-image {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.match-athlete-image img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.match-athlete-info h3 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.athlete-nation {
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.athlete-bio {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.achievements-section h4 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.athlete-achievements {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Shoe Recommendation */
+.shoe-recommendation-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.shoe-image-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.shoe-image-section img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.shoe-info-section h3 {
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.shoe-brand {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.shoe-features {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.shoe-details {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.shoe-details p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.shoe-details strong {
+  color: var(--text);
+}
+
+.shoe-rating {
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .athlete-match-card,
+  .shoe-recommendation-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .match-athlete-image img,
+  .shoe-image-section img {
+    max-width: 100%;
+  }
+
+  .match-athlete-info h3,
+  .shoe-info-section h3 {
+    font-size: 18px;
+  }
+
+  .match-result-section h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .athlete-match-card,
+  .shoe-recommendation-card {
+    padding: 12px;
+  }
+
+  .match-athlete-info h3,
+  .shoe-info-section h3 {
+    font-size: 16px;
+  }
+
+  .athlete-bio,
+  .shoe-features {
+    font-size: 13px;
+  }
+
+  .shoe-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
