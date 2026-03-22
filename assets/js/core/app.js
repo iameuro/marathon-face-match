@@ -345,13 +345,11 @@ async function captureAndAnalyze() {
 // 카메라 버튼 이벤트
 function setupCameraButtons() {
   const startBtn = document.getElementById("camera-start");
-  const stopBtn = document.getElementById("camera-stop");
   const captureBtn = document.getElementById("camera-capture");
   const resetBtn = document.getElementById("reset-match");
   
   console.log("Button elements check:", {
     startBtn: !!startBtn,
-    stopBtn: !!stopBtn,
     captureBtn: !!captureBtn,
     resetBtn: !!resetBtn
   });
@@ -360,12 +358,6 @@ function setupCameraButtons() {
     startBtn.addEventListener("click", () => {
       console.log("Start camera button clicked");
       initCamera();
-    });
-  }
-  if (stopBtn) {
-    stopBtn.addEventListener("click", () => {
-      console.log("Stop camera button clicked");
-      stopCamera();
     });
   }
   if (captureBtn) {
